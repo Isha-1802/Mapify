@@ -1,0 +1,177 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: #fffaf3;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 700;
+}
+
+/* Navbar */
+.navbar {
+  background: #fff0eb;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid #f4ccc5;
+}
+
+.navbar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.8rem;
+  color: #cc6b6b;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.2rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 1rem;
+  display: inline-block;
+}
+
+.btn.pink {
+  background-color: #e9a8a8;
+  color: white;
+}
+
+.btn.light {
+  background-color: #fff5f5;
+  color: #333;
+  border: 1px solid #e9a8a8;
+}
+
+.btn.white {
+  background: white;
+  color: #cc6b6b;
+  border: 2px solid #cc6b6b;
+}
+
+/* Hero Section */
+.hero {
+  background: #fff3ea;
+  padding: 4rem 0;
+}
+
+.hero-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3rem;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-text h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero-text .highlight {
+  color: #cc6b6b;
+}
+
+.hero-image img {
+  max-width: 100%;
+  border-radius: 12px;
+}
+
+/* Features Section */
+.features {
+  background: #fffdf7;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.features-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.features .card {
+  flex: 1;
+  min-width: 260px;
+  background: #fff8e7;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+/* Testimonials */
+.testimonials {
+  background: #fff5ea;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.testimonial-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+  justify-content: center;
+}
+
+.testimonial {
+  flex: 1;
+  min-width: 250px;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 1px solid #f0e0da;
+}
+
+.testimonial .user {
+  margin-top: 1rem;
+  display: block;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #555;
+}
+
+/* CTA */
+.cta {
+  background: #fddde6;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.cta .btn.white {
+  margin-top: 1rem;
+}
