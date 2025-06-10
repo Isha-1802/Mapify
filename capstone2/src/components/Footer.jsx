@@ -1,7 +1,6 @@
-// Footer.jsx
 import React from 'react';
 
-const Footer = () => {
+const Footer = ({ onHomeClick, onCreateMapClick, onMyMapsClick, onContactClick }) => {
   return (
     <footer className="footer">
       <div className="footer-container">
@@ -12,9 +11,10 @@ const Footer = () => {
         <div className="footer-column">
           <h4>Quick Links</h4>
           <ul>
-            <li><a href="#" onClick={(e) => e.preventDefault()}>Home</a></li>
-            <li><a href="#" onClick={(e) => e.preventDefault()}>Create Map</a></li>
-            <li><a href="#" onClick={(e) => e.preventDefault()}>My Maps</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); onHomeClick(); }}>Home</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); onCreateMapClick(); }}>Create Map</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); onMyMapsClick(); }}>My Maps</a></li>
+            <li><a href="#" onClick={(e) => { e.preventDefault(); onContactClick(); }}>Contact</a></li>
           </ul>
         </div>
         <div className="footer-column">
@@ -39,3 +39,4 @@ const Footer = () => {
 };
 
 export default Footer;
+

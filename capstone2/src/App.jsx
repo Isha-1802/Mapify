@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import MapsSection from './components/MapsSection';
-import HomeUI from './components/HomeUI';
 import Features from './components/Features';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
 import Contact from './components/Contact';
 import CreateMap from './components/CreateMap';
+import LoginModal from './components/LoginModal'; // ⬅️ NEW IMPORT
+
 
 const App = () => {
   // Page state controllers
@@ -14,6 +15,7 @@ const App = () => {
   const [showContactPage, setShowContactPage] = useState(false);
   const [showCreateMapPage, setShowCreateMapPage] = useState(false);
   const [showMyMapsPage, setShowMyMapsPage] = useState(false); // NEW
+  const [showLoginModal, setShowLoginModal] = useState(false); // NEW
 
   // User data state
   const [userName, setUserName] = useState('');
@@ -22,14 +24,17 @@ const App = () => {
   // Placeholder for mind map data
   const [mapsData, setMapsData] = useState([]);
 
+  // Search input state
+  const [searchQuery, setSearchQuery] = useState('');
+
   // ------------------ NAVIGATION HANDLERS ----------------------
 
-  const handleHomeClick = (e) => {
-    e.preventDefault();
+  const handleHomeClick = () => {
     setShowHomeUI(false);
     setShowContactPage(false);
     setShowCreateMapPage(false);
     setShowMyMapsPage(false); // NEW
+    window.scrollTo(0, 0); // Scroll to top
   };
 
   const handleContactClick = () => {
@@ -37,14 +42,15 @@ const App = () => {
     setShowHomeUI(false);
     setShowCreateMapPage(false);
     setShowMyMapsPage(false); // NEW
+    window.scrollTo(0, 0); // Scroll to top
   };
-
 
   const handleCreateMapClick = () => {
     setShowCreateMapPage(true);
     setShowContactPage(false);
     setShowHomeUI(false);
     setShowMyMapsPage(false); // NEW
+    window.scrollTo(0, 0); // Scroll to top
   };
 
   const handleMyMapsClick = () => {
@@ -52,6 +58,7 @@ const App = () => {
     setShowCreateMapPage(false);
     setShowContactPage(false);
     setShowHomeUI(false); // NEW
+    window.scrollTo(0, 0); // Scroll to top
   };
 
   const handleBackClick = () => {
@@ -66,6 +73,11 @@ const App = () => {
     setMapsData(savedMaps);
   }, [userName, userDesc]);
 
+  // Filter logic for searching maps by title
+  const filteredMaps = mapsData.filter(map =>
+    map.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <>
       <Navbar 
@@ -73,7 +85,13 @@ const App = () => {
         onContactClick={handleContactClick}
         onCreateMapClick={handleCreateMapClick}
         onMyMapsClick={handleMyMapsClick} // NEW
+        onGetStartedClick={() => setShowLoginModal(true)} // NEW
       />
+
+      {/* Login Modal */}
+      {showLoginModal && (
+        <LoginModal onClose={() => setShowLoginModal(false)} />
+      )}
 
       {/* Contact Page */}
       {showContactPage ? (
@@ -98,9 +116,29 @@ const App = () => {
         <div className="my-maps-page">
           <h2 className="section-title">My Mind Maps</h2>
 
-          {mapsData.length > 0 ? (
+          {/* Search Bar */}
+          <div className="search-bar" style={{ textAlign: 'center', margin: '1rem 0' }}>
+            <input
+              type="text"
+              placeholder="Let’s find your thought trails 🗺️"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="search-input"
+              style={{
+                width: '60%',
+                padding: '10px 15px',
+                fontSize: '1rem',
+                border: '1px solid #ccc',
+                borderRadius: '8px',
+                outline: 'none',
+                backgroundColor: '#fff'
+              }}
+            />
+          </div>
+
+          {filteredMaps.length > 0 ? (
             <div className="map-list">
-              {mapsData.map((map, index) => (
+              {filteredMaps.map((map, index) => (
                 <div key={index} className="map-card">
                   <h3>{map.title}</h3>
                   <p>{map.description}</p>
@@ -111,7 +149,7 @@ const App = () => {
           ) : (
             <div className="empty-map-box">
               <div className="icon">📁</div>
-              <p><strong>No mind maps yet</strong></p>
+              <p><strong>No matching maps found</strong></p>
               <p>Create your first mind map to start organizing your ideas and visualizing your thoughts.</p>
               <button className="btn create-map-btn">+ Create New Map</button>
             </div>
@@ -128,7 +166,12 @@ const App = () => {
       )}
 
       {/* Footer (Always Visible) */}
-      <Footer />
+      <Footer 
+        onHomeClick={handleHomeClick}
+        onCreateMapClick={handleCreateMapClick}
+        onMyMapsClick={handleMyMapsClick}
+        onContactClick={handleContactClick}
+      />
     </>
   );
 };
