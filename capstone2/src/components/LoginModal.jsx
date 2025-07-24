@@ -1,57 +1,77 @@
-import React, { useState } from 'react';
+// src/components/LoginModal.jsx
+import React, { useState } from "react";
+import { auth } from "../firebase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
+} from "firebase/auth";
 
 const LoginModal = ({ onClose }) => {
-  const [isSignup, setIsSignup] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
+  const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSuccessMessage(isSignup ? "Signup successful ✅" : "Login successful ✅");
+    setErrorMsg("");
 
-    setTimeout(() => {
-      setSuccessMessage('');
-      onClose();
-    }, 2000); // Auto-close after showing success
+    try {
+      let userCredential;
+      if (isLogin) {
+        await signInWithEmailAndPassword(auth, email, password);
+        console.log("Login successful:", userCredential);
+        alert("Logged in successfully");
+      } else {
+        await createUserWithEmailAndPassword(auth, email, password);
+        console.log("Signup successful:", userCredential);
+        alert("Account created successfully");
+      }
+      onClose(); // Close modal after success
+    } catch (error) {
+      setErrorMsg(error.message);
+    }
   };
 
   return (
-    <div className="login-modal-overlay" onClick={onClose}>
-      <div className="login-modal slide-fade-in" onClick={(e) => e.stopPropagation()}>
-        <button className="close-btn" onClick={onClose}>×</button>
-        <h2>{isSignup ? 'Sign Up for Mapify' : 'Sign in to Mapify'}</h2>
-        <p>{isSignup ? 'Create your account below' : 'Welcome back! Please log in.'}</p>
-
-        <form className="auth-form" onSubmit={handleSubmit}>
-          <input type="email" placeholder="Your Email" required />
+    <div className="modal">
+      <div className="modal-content">
+        <h2>{isLogin ? "Login" : "Sign Up"}</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
           <input
             type="password"
-            placeholder={isSignup ? "Create Password" : "Your Password"}
+            placeholder="Password"
             required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          <button type="submit" className="submit-btn">
-            {isSignup ? 'Sign Up' : 'Log In'}
-          </button>
+          <button type="submit">{isLogin ? "Login" : "Sign Up"}</button>
+          {errorMsg && <p className="error">{errorMsg}</p>}
         </form>
-
-        {successMessage && <div className="success-message">{successMessage}</div>}
-
-        <div className="switch-auth">
-          {isSignup ? (
-            <p>Already have an account? <span onClick={() => setIsSignup(false)} className="auth-toggle">Log in</span></p>
-          ) : (
-            <p>Don’t have an account? <span onClick={() => setIsSignup(true)} className="auth-toggle">Sign up</span></p>
-          )}
-        </div>
-
-        <div className="auth-buttons">
-          <button className="google-btn">🌐 Continue with Google</button>
-          <button className="facebook-btn">📘 Continue with Facebook</button>
-        </div>
-
-        <p className="terms">By continuing, you agree to our Terms of Service & Privacy Policy.</p>
+        <p>
+          {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+          <button onClick={() => setIsLogin(!isLogin)}>
+            {isLogin ? "Sign up" : "Login"}
+          </button>
+        </p>
+        <button onClick={onClose} className="close-btn">Close</button>
       </div>
     </div>
   );
 };
 
 export default LoginModal;
+
+
+
+
+
+
+

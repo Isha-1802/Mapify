@@ -4,7 +4,6 @@ const Contact = () => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [messageSent, setMessageSent] = useState(false);
 
-  // Form field states
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
